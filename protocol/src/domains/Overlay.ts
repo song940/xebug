@@ -1,14 +1,17 @@
-import { getNode, getNodeId } from '../lib/stringifyNode';
+import {
+  $,
+  h,
+  isMobile,
+  toNum,
+  isStr,
+  each,
+  trim,
+} from '../lib/util';
 import { pushNodesToFrontend } from './DOM';
-import $ from 'licia/$';
-import h from 'licia/h';
-import isMobile from 'licia/isMobile';
-import toNum from 'licia/toNum';
-import isStr from 'licia/isStr';
-import each from 'licia/each';
-import trim from 'licia/trim';
 import connector from '../lib/connector';
 import * as stringifyObj from '../lib/stringifyObj';
+import { getNode, getNodeId } from '../lib/stringifyNode';
+
 
 const transparent: any = { r: 0, g: 0, b: 0, a: 0 };
 
@@ -327,7 +330,7 @@ function formatElName(el: HTMLElement) {
 
   let classes = '';
   if (isStr(className)) {
-    each(className.split(/\s+/g), val => {
+    each(className.split(/\s+/g), (val: string) => {
       if (trim(val) === '') return;
 
       classes += `.${val}`;

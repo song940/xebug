@@ -1,13 +1,15 @@
+import {
+  each,
+  map,
+  now,
+  isStr,
+  fnParams,
+  uncaught,
+  startWith,
+  stackTrace,
+  trim,
+} from '../lib/util';
 import connector from '../lib/connector';
-import each from 'licia/each';
-import map from 'licia/map';
-import now from 'licia/now';
-import isStr from 'licia/isStr';
-import fnParams from 'licia/fnParams';
-import uncaught from 'licia/uncaught';
-import startWith from 'licia/startWith';
-import stackTrace from 'licia/stackTrace';
-import trim from 'licia/trim';
 import * as stringifyObj from '../lib/stringifyObj';
 import evaluateJs, { setGlobal } from '../lib/evaluate';
 
@@ -95,12 +97,12 @@ function monitorConsole() {
     clear: 'clear',
   };
 
-  each(methods, (type, name) => {
+  each(methods, (type: any, name: any) => {
     const origin = console[name].bind(console);
     console[name] = (...args: any[]) => {
       origin(...args);
 
-      args = map(args, arg =>
+      args = map(args, (arg: any) =>
         stringifyObj.wrap(arg, {
           generatePreview: true,
         })
@@ -122,7 +124,7 @@ function monitorConsole() {
 
 const Function = window.Function;
 /* tslint:disable-next-line */
-const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
 
 function parseFn(fnStr: string) {
   const result = fnParams(fnStr);
@@ -153,7 +155,7 @@ async function callFn(
   return fn.apply(ctx, args);
 }
 
-uncaught.addListener(err => {
+uncaught.addListener((err: any) => {
   connector.trigger('Runtime.exceptionThrown', {
     exceptionDetails: {
       exception: stringifyObj.wrap(err),
@@ -173,7 +175,7 @@ function getCallFrames(error?: Error) {
       callFrames.shift();
     }
     callFrames.shift();
-    callFrames = map(callFrames, val => ({ functionName: trim(val) }));
+    callFrames = map(callFrames, (val: any) => ({ functionName: trim(val) }));
   } else {
     callSites.shift();
     callFrames = map(callSites, (callSite: any) => {

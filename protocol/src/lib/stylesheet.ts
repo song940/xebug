@@ -1,6 +1,4 @@
-import each from 'licia/each';
-import Emitter from 'licia/Emitter';
-import { createId } from './util';
+import { each, createId, Emitter } from './util';
 
 const elProto: any = Element.prototype;
 

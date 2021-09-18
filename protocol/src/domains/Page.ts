@@ -1,5 +1,4 @@
-import $ from 'licia/$';
-import fetch from 'licia/fetch';
+import { $, fetch } from '../lib/util';
 import { fullUrl } from '../lib/request';
 
 export async function getAppManifest() {

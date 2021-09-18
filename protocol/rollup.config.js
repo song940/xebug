@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import ts from 'rollup-plugin-typescript2';
 
-import { name, main, types, source } from './package.json';
+import { name } from './package.json';
 
 function createConfig(entryFile, output) {
   output.sourcemap = true;
@@ -23,14 +23,13 @@ function createConfig(entryFile, output) {
       },
       exclude: ['**/test']
     }
-  })
+  });
 
   const nodePlugins = [
     require('@rollup/plugin-commonjs')(),
     require('@rollup/plugin-node-resolve').nodeResolve()
   ];
 
-  const plugins = [];
   const external = [];
 
   return {
@@ -39,10 +38,8 @@ function createConfig(entryFile, output) {
     plugins: [
       tsPlugin,
       ...nodePlugins,
-      ...plugins
     ],
     output,
-    // onwarn: (msg, warn) => warn(msg),
     treeshake: {
       moduleSideEffects: false
     }
@@ -50,5 +47,5 @@ function createConfig(entryFile, output) {
 }
 
 export default [
-  createConfig('./src/index.ts', { file: 'dist/xebug.js', format: 'esm' }),
+  createConfig('./src/index.ts', { file: 'dist/xebug.js', format: 'iife', name }),
 ]

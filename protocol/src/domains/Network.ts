@@ -1,11 +1,13 @@
-import trim from 'licia/trim';
-import each from 'licia/each';
-import decodeUriComponent from 'licia/decodeUriComponent';
-import rmCookie from 'licia/rmCookie';
-import once from 'licia/once';
-import isNative from 'licia/isNative';
-import { XhrRequest, FetchRequest } from '../lib/request';
+import {
+  trim,
+  each,
+  once,
+  rmCookie,
+  isNative,
+  decodeUriComponent,
+} from '../lib/util';
 import connector from '../lib/connector';
+import { XhrRequest, FetchRequest } from '../lib/request';
 
 export function deleteCookies(params: any) {
   rmCookie(params.name);
@@ -121,7 +123,7 @@ export const enable = once(function () {
 
   window.fetch = function (...args) {
     const req = new FetchRequest(...args);
-    req.on('send', (id, data) => {
+    req.on('send', (id: any, data: any) => {
       const request: any = {
         method: data.method,
         url: data.url,
@@ -139,7 +141,7 @@ export const enable = once(function () {
         timestamp: data.time / 1000,
       });
     });
-    req.on('done', (id, data) => {
+    req.on('done', (id: any, data: any) => {
       connector.trigger('Network.responseReceived', {
         requestId: id,
         type: 'Fetch',

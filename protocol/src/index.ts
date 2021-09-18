@@ -1,9 +1,14 @@
+import {
+  noop,
+  uuid,
+  each,
+  Emitter,
+} from './lib/util';
+
 import connector from './lib/connector';
-import noop from 'licia/noop';
-import uuid from 'licia/uuid';
 import methods from './domains/methods';
-import each from 'licia/each';
-import Emitter from 'licia/Emitter';
+
+
 
 type OnMessage = (message: string) => void;
 type DomainMethod = (...args: any[]) => any;
@@ -14,7 +19,7 @@ class Xebug {
   private domains: Map<string, { [index: string]: DomainMethod }> = new Map();
   constructor() {
     this.onMessage = noop;
-    connector.on('message', message => {
+    connector.on('message', (message: any) => {
       const parsedMessage = JSON.parse(message);
 
       const resolve = this.resolves.get(parsedMessage.id);

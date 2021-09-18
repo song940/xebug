@@ -1,6 +1,8 @@
-import each from 'licia/each';
-import rmCookie from 'licia/rmCookie';
-import safeStorage from 'licia/safeStorage';
+import {
+  each,
+  rmCookie,
+  safeStorage,
+} from '../lib/util';
 import { getCookies } from './Network';
 
 const localStore = safeStorage('local');
@@ -17,10 +19,10 @@ export function getUsageAndQuota() {
 export function clearDataForOrigin(params: any) {
   const storageTypes = params.storageTypes.split(',');
 
-  each(storageTypes, type => {
+  each(storageTypes, (type: string) => {
     if (type === 'cookies') {
       const cookies = getCookies().cookies;
-      each(cookies, ({ name }) => rmCookie(name));
+      each(cookies, ({ name }: any) => rmCookie(name));
     } else if (type === 'local_storage') {
       localStore.clear();
       sessionStore.clear();

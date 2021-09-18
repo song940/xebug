@@ -1,12 +1,11 @@
-import Emitter from 'licia/Emitter';
-import each from 'licia/each';
+import { each, Emitter } from './util';
 
 class Observer extends Emitter {
   private observer: MutationObserver;
   constructor() {
     super();
     this.observer = new MutationObserver(mutations => {
-      each(mutations, mutation => this.handleMutation(mutation));
+      each(mutations, (mutation: any) => this.handleMutation(mutation));
     });
   }
   observe() {

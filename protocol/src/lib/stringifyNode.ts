@@ -1,8 +1,4 @@
-import map from 'licia/map';
-import filter from 'licia/filter';
-import each from 'licia/each';
-import trim from 'licia/trim';
-import contain from 'licia/contain';
+import { each, map, trim, filter, contain } from './util';
 
 const nodes = new Map();
 const nodeIds = new Map();
@@ -46,7 +42,7 @@ export function wrap(node: any, { depth = 1 } = {}) {
 
   if (node.attributes) {
     const attributes: string[] = [];
-    each(node.attributes, ({ name, value }) => attributes.push(name, value));
+    each(node.attributes, ({ name, value }: any) => attributes.push(name, value));
     ret.attributes = attributes;
   }
 
@@ -64,7 +60,7 @@ export function wrap(node: any, { depth = 1 } = {}) {
 export function getChildNodes(node: any, depth: number) {
   const childNodes = filterNodes(node.childNodes);
 
-  return map(childNodes, node => wrap(node, { depth: depth - 1 }));
+  return map(childNodes, (node: any) => wrap(node, { depth: depth - 1 }));
 }
 
 export function getPreviousNode(node: any) {

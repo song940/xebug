@@ -1,9 +1,4 @@
-import isStr from 'licia/isStr';
-import copy from 'licia/copy';
-import toArr from 'licia/toArr';
-import keys from 'licia/keys';
-import xpath from 'licia/xpath';
-import each from 'licia/each';
+import { isStr, copy, toArr, keys, xpath, each } from './util';
 
 const global: any = {
   copy(value: any) {
@@ -25,7 +20,7 @@ const global: any = {
 declare const window: any;
 
 function injectGlobal() {
-  each(global, (val, name) => {
+  each(global, (val: any, name: string) => {
     if (window[name]) return;
 
     window[name] = val;
@@ -33,7 +28,7 @@ function injectGlobal() {
 }
 
 function clearGlobal() {
-  each(global, (val, name) => {
+  each(global, (val: any, name: string) => {
     if (window[name] && window[name] === val) {
       delete window[name];
     }

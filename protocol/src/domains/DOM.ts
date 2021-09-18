@@ -1,22 +1,25 @@
+import {
+  $,
+  isNull,
+  isEmpty,
+  html,
+  map,
+  unique,
+  contain,
+  lowerCase,
+  each,
+  toArr,
+  xpath,
+  concat,
+} from '../lib/util';
 import connector from '../lib/connector';
+import { createId } from '../lib/util';
+import { setGlobal } from '../lib/evaluate';
 import * as stringifyNode from '../lib/stringifyNode';
 import { getNode, getNodeId } from '../lib/stringifyNode';
 import * as stringifyObj from '../lib/stringifyObj';
 import mutationObserver from '../lib/mutationObserver';
-import $ from 'licia/$';
-import isNull from 'licia/isNull';
-import isEmpty from 'licia/isEmpty';
-import html from 'licia/html';
-import map from 'licia/map';
-import unique from 'licia/unique';
-import { setGlobal } from '../lib/evaluate';
-import contain from 'licia/contain';
-import { createId } from '../lib/util';
-import lowerCase from 'licia/lowerCase';
-import each from 'licia/each';
-import toArr from 'licia/toArr';
-import xpath from 'licia/xpath';
-import concat from 'licia/concat';
+
 
 export function collectClassNamesFromSubtree(params: any) {
   const node = getNode(params.nodeId);
@@ -106,7 +109,7 @@ export function performSearch(params: any) {
       }
 
       const attributes: string[] = [];
-      each(node.attributes, ({ name, value }) => attributes.push(name, value));
+      each(node.attributes, ({ name, value }: any) => attributes.push(name, value));
       for (let i = 0, len = attributes.length; i < len; i++) {
         if (contain(lowerCase(attributes[i]), query)) {
           result.push(node);

@@ -1,13 +1,15 @@
-import { getNode, getNodeId } from '../lib/stringifyNode';
-import * as stylesheet from '../lib/stylesheet';
-import map from 'licia/map';
-import last from 'licia/last';
-import each from 'licia/each';
-import trim from 'licia/trim';
-import startWith from 'licia/startWith';
-import concat from 'licia/concat';
+import {
+  map,
+  last,
+  each,
+  trim,
+  startWith,
+  concat,
+} from '../lib/util';
 import connector from '../lib/connector';
+import * as stylesheet from '../lib/stylesheet';
 import mutationObserver from '../lib/mutationObserver';
+import { getNode, getNodeId } from '../lib/stringifyNode';
 
 export function enable() {
   each(stylesheet.getStyleSheets(), (styleSheet: any) => {
@@ -59,7 +61,7 @@ export function getInlineStylesForNode(params: any) {
       endColumn: last(cssText.split('\n')).length,
     };
     let cssPropertiesWithRange = toCssProperties(parseCssText(cssText));
-    cssPropertiesWithRange = map(cssPropertiesWithRange, ({ name, value }) => {
+    cssPropertiesWithRange = map(cssPropertiesWithRange, ({ name, value }: any) => {
       const { text, range } = getInlineStyleRange(name, value, cssText);
 
       const ret: any = {
@@ -80,7 +82,7 @@ export function getInlineStylesForNode(params: any) {
       return ret;
     });
     const parsedStyle = stylesheet.formatStyle(style);
-    each(cssPropertiesWithRange, ({ name }) => delete parsedStyle[name]);
+    each(cssPropertiesWithRange, ({ name }: any) => delete parsedStyle[name]);
     const cssPropertiesWithoutRange = toCssProperties(parsedStyle);
 
     inlineStyle.shorthandEntries = getShorthandEntries(style);
@@ -100,7 +102,7 @@ export function getMatchedStylesForNode(params: any) {
   const matchedCSSRules = stylesheet.getMatchedCssRules(node);
 
   return {
-    matchedCSSRules: map(matchedCSSRules, matchedCSSRule =>
+    matchedCSSRules: map(matchedCSSRules, (matchedCSSRule: any) =>
       formatMatchedCssRule(node, matchedCSSRule)
     ),
     ...getInlineStylesForNode(params),
@@ -160,7 +162,7 @@ export function setStyleTexts(params: any) {
 
 function formatMatchedCssRule(node: any, matchedCssRule: any) {
   const { selectorText }: { selectorText: string } = matchedCssRule;
-  const selectors = map(selectorText.split(','), selector => trim(selector));
+  const selectors = map(selectorText.split(','), (selector: string) => trim(selector));
 
   const shorthandEntries = getShorthandEntries(matchedCssRule.style);
   const style = stylesheet.formatStyle(matchedCssRule.style);
@@ -168,7 +170,7 @@ function formatMatchedCssRule(node: any, matchedCssRule: any) {
   const rule: any = {
     styleSheetId: matchedCssRule.styleSheetId,
     selectorList: {
-      selectors: map(selectors, selector => ({ text: selector })),
+      selectors: map(selectors, (selector: any) => ({ text: selector })),
       text: selectorText,
     },
     style: {
@@ -178,7 +180,7 @@ function formatMatchedCssRule(node: any, matchedCssRule: any) {
   };
 
   const matchingSelectors: number[] = [];
-  each(selectors, (selector, idx) => {
+  each(selectors, (selector: any, idx: number) => {
     if (stylesheet.matchesSelector(node, selector)) {
       matchingSelectors.push(idx);
     }
@@ -234,7 +236,7 @@ const shortHandNames = ['background', 'font', 'border', 'margin', 'padding'];
 function getShorthandEntries(style: CSSStyleDeclaration) {
   const ret: any[] = [];
 
-  each(shortHandNames, name => {
+  each(shortHandNames, (name: any) => {
     const value = (style as any)[name];
     if (value) {
       ret.push({
@@ -252,7 +254,7 @@ function parseCssText(cssText: string) {
   const properties = cssText.split(';');
   const ret: any = {};
 
-  each(properties, property => {
+  each(properties, (property: string) => {
     property = trim(property);
     if (!property) return;
     const colonPos = property.indexOf(':');

@@ -1,4 +1,3 @@
-import noop from 'licia/noop';
 import * as Runtime from './Runtime';
 import * as Page from './Page';
 import * as DOM from './DOM';
@@ -9,6 +8,7 @@ import * as Overlay from './Overlay';
 import * as DOMDebugger from './DOMDebugger';
 import * as Debugger from './Debugger';
 import * as Storage from './Storage';
+import { noop } from '../lib/util';
 
 const methods: any = {
   'Debugger.enable': Debugger.enable,

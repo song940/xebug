@@ -1,14 +1,4 @@
-import Emitter from 'licia/Emitter';
-import isStr from 'licia/isStr';
-import last from 'licia/last';
-import Url from 'licia/Url';
-import isEmpty from 'licia/isEmpty';
-import trim from 'licia/trim';
-import now from 'licia/now';
-import each from 'licia/each';
-import startWith from 'licia/startWith';
-import toNum from 'licia/toNum';
-import { createId } from './util';
+import { createId, Emitter, isStr, last, Url, isEmpty, trim, now, each, startWith, toNum } from './util';
 
 export class XhrRequest extends Emitter {
   private xhr: XMLHttpRequest;
@@ -176,7 +166,7 @@ function getHeaders(xhr: XMLHttpRequest) {
 
   const ret: any = {};
 
-  each(lines, line => {
+  each(lines, (line: string) => {
     line = trim(line);
 
     if (line === '') return;

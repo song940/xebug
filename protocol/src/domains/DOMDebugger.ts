@@ -1,12 +1,15 @@
-import safeGet from 'licia/safeGet';
-import isEl from 'licia/isEl';
-import isFn from 'licia/isFn';
-import isBool from 'licia/isBool';
-import keys from 'licia/keys';
-import each from 'licia/each';
-import defaults from 'licia/defaults';
-import * as stringifyObj from '../lib/stringifyObj';
+import {
+  safeGet,
+  isEl,
+  isFn,
+  isBool,
+  keys,
+  each,
+  defaults,
+} from '../lib/util';
 import * as scripts from '../lib/scripts';
+import * as stringifyObj from '../lib/stringifyObj';
+
 
 export function getEventListeners(params: any) {
   const obj = stringifyObj.getObj(params.objectId);
@@ -16,8 +19,8 @@ export function getEventListeners(params: any) {
 
   const script = scripts.get();
 
-  each(events, (events: any[], type) => {
-    each(events, event => {
+  each(events, (events: any[], type: any) => {
+    each(events, (event: any) => {
       listeners.push({
         type,
         useCapture: event.useCapture,

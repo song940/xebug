@@ -1,8 +1,10 @@
-import safeStorage from 'licia/safeStorage';
-import each from 'licia/each';
-import isStr from 'licia/isStr';
-import once from 'licia/once';
-import jsonClone from 'licia/jsonClone';
+import {
+  each,
+  isStr,
+  once,
+  jsonClone,
+  safeStorage,
+} from '../lib/util';
 import connector from '../lib/connector';
 
 const localStore = safeStorage('local');
@@ -19,7 +21,7 @@ export function getDOMStorageItems(params: any) {
 
   const entries: string[][] = [];
 
-  each(jsonClone(store), (val, key) => {
+  each(jsonClone(store), (val: any, key: any) => {
     if (!isStr(val)) return;
 
     entries.push([key, val]);
@@ -47,7 +49,7 @@ export function setDOMStorageItem(params: any) {
 }
 
 export const enable = once(function () {
-  each(['local', 'session'], type => {
+  each(['local', 'session'], (type: string) => {
     const store = type === 'local' ? localStore : sessionStore;
     const storageId = getStorageId(type);
 
