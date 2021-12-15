@@ -11,15 +11,14 @@ import {
   toArr,
   xpath,
   concat,
+  createId,
 } from '../lib/util';
 import connector from '../lib/connector';
-import { createId } from '../lib/util';
 import { setGlobal } from '../lib/evaluate';
+import mutationObserver from '../lib/mutationObserver';
+import * as stringifyObj from '../lib/stringifyObj';
 import * as stringifyNode from '../lib/stringifyNode';
 import { getNode, getNodeId } from '../lib/stringifyNode';
-import * as stringifyObj from '../lib/stringifyObj';
-import mutationObserver from '../lib/mutationObserver';
-
 
 export function collectClassNamesFromSubtree(params: any) {
   const node = getNode(params.nodeId);

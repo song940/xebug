@@ -7,7 +7,7 @@ const server = createServer((req, res) => {
 
 const wss = new WebSocketBridge({ server });
 server.on('upgrade', wss.handleUpgrade(ws => {
-  console.log('websocket was connected');
+  console.log('websocket was connected', ws);
 }));
 
 server.listen(3000);

@@ -40,7 +40,7 @@ export class ChannelManager extends EventEmitter {
   create(id, ws) {
     let { connect } = ws;
     const channel = new Channel(ws);
-    if(connect && this.clients.has(connect)) {
+    if (connect && this.clients.has(connect)) {
       console.log('connect', connect);
       connect = this.clients.get(connect);
       channel.join(connect);

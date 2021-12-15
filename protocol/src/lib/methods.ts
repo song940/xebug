@@ -1,14 +1,15 @@
-import * as Runtime from './Runtime';
-import * as Page from './Page';
-import * as DOM from './DOM';
-import * as CSS from './CSS';
-import * as DOMStorage from './DOMStorage';
-import * as Network from './Network';
-import * as Overlay from './Overlay';
-import * as DOMDebugger from './DOMDebugger';
-import * as Debugger from './Debugger';
-import * as Storage from './Storage';
-import { noop } from '../lib/util';
+import * as DOM from '../domains/DOM';
+import * as CSS from '../domains/CSS';
+import * as Page from '../domains/Page';
+import * as Network from '../domains/Network';
+import * as Overlay from '../domains/Overlay';
+import * as Runtime from '../domains/Runtime';
+import * as Storage from '../domains/Storage';
+import * as Debugger from '../domains/Debugger';
+import * as DOMStorage from '../domains/DOMStorage';
+import * as DOMDebugger from '../domains/DOMDebugger';
+
+import { noop } from './util';
 
 const methods: any = {
   'Debugger.enable': Debugger.enable,

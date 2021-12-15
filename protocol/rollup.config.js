@@ -4,12 +4,11 @@ import ts from 'rollup-plugin-typescript2';
 import { name } from './package.json';
 
 function createConfig(entryFile, output) {
-  output.sourcemap = true;
-  output.externalLiveBindings = false
-  output.globals = {}
-  output.sourcemap = true
+  // output.globals = {}
+  // output.sourcemap = true;
+  // output.externalLiveBindings = false;
 
-  const shouldEmitDeclarations = false
+  const shouldEmitDeclarations = false;
 
   const tsPlugin = ts({
     check: true,
@@ -32,6 +31,8 @@ function createConfig(entryFile, output) {
 
   const external = [];
 
+  console.log(output);
+
   return {
     input: resolve(entryFile),
     external,
@@ -48,4 +49,6 @@ function createConfig(entryFile, output) {
 
 export default [
   createConfig('./src/index.ts', { file: 'dist/xebug.js', format: 'iife', name }),
+  createConfig('./src/index.ts', { file: 'dist/xebug.cjs.js', format: 'cjs', name }),
+  createConfig('./src/index.ts', { file: 'dist/xebug.esm.js', format: 'esm', name }),
 ]

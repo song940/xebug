@@ -1,27 +1,20 @@
 import {
-  noop,
   uuid,
   each,
   Emitter,
 } from './lib/util';
-
+import methods from './lib/methods';
 import connector from './lib/connector';
-import methods from './domains/methods';
 
-
-
-type OnMessage = (message: string) => void;
 type DomainMethod = (...args: any[]) => any;
 
-class Xebug {
-  private onMessage: OnMessage;
+export class Xebug extends Emitter {
   private resolves: Map<string, (value?: any) => void> = new Map();
   private domains: Map<string, { [index: string]: DomainMethod }> = new Map();
   constructor() {
-    this.onMessage = noop;
+    super();
     connector.on('message', (message: any) => {
       const parsedMessage = JSON.parse(message);
-
       const resolve = this.resolves.get(parsedMessage.id);
       if (resolve) {
         resolve(parsedMessage.result);
@@ -34,8 +27,7 @@ class Xebug {
           domain.emit(method, parsedMessage.params);
         }
       }
-
-      this.onMessage(message);
+      this.emit('message', message);
     });
 
     this.initDomains();
@@ -43,12 +35,8 @@ class Xebug {
   domain(name: string) {
     return this.domains.get(name);
   }
-  setOnMessage(onMessage: OnMessage) {
-    this.onMessage = onMessage;
-  }
   sendMessage(method: string, params: any = {}) {
     const id = uuid();
-
     this.sendRawMessage(
       JSON.stringify({
         id,
@@ -56,16 +44,13 @@ class Xebug {
         params,
       })
     );
-
     return new Promise(resolve => {
       this.resolves.set(id, resolve);
     });
   }
   async sendRawMessage(message: string) {
     const parsedMessage = JSON.parse(message);
-
     const { method, params, id } = parsedMessage;
-
     const resultMsg: any = {
       id,
     };
@@ -74,10 +59,9 @@ class Xebug {
       resultMsg.result = await this.callMethod(method, params);
     } catch (e) {
       resultMsg.error = {
-        message: e.message,
+        message: (e as any).message,
       };
     }
-
     connector.emit('message', JSON.stringify(resultMsg));
   }
   private initDomains() {
@@ -98,9 +82,7 @@ class Xebug {
     if (methods[method]) {
       return methods[method](params) || {};
     } else {
-      throw Error(`${method} unimplemented`);
+      throw Error(`${method} is not implemented`);
     }
   }
 }
-
-module.exports = Xebug;
